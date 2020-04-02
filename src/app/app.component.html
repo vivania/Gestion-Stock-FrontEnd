@@ -1,0 +1,43 @@
+<nav class="navbar navbar-inverse color-change">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">ELEGANTO</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a class="clickable" (click)="onDesactiveCatalogue()">Home</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Products <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a (click)="onProductPromo()">Promotion</a></li>
+          <li><a (click)="onProductDispo()">Disponible</a></li>
+        </ul>
+      </li>
+      <li><a href="#">page</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a routerLink="panier" class="curser">{{panierService.getPanier().name}} | {{panierService.getPanier().item.size}}</a></li>
+      <li><a href=""><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li class="clickable"><a (click)="onLogout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="col-md-3">
+    <ul class="list-group" *ngIf="categories">
+      <li *ngFor="let category of categories._embedded.categories"
+          class="list-group-item clickable"
+          [ngClass]="currentCategory == category ? 'active': '' "
+          (click)="getCurrentCategory(category)">
+          {{category.name}}
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-9">
+      <router-outlet></router-outlet>
+  </div>
+
+</div>
+
+
+
+

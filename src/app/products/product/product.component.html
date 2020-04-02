@@ -1,0 +1,58 @@
+<div *ngIf="products">
+  <h3 style="text-align:center">{{ title }}</h3>
+  <br />
+  <div *ngFor="let product of products._embedded.products">
+    <div class="col-md-6">
+      <div class="panel panel-default heighted">
+        <div class="panel-heading">{{ product.name }}</div>
+        <div class="panel-body">
+          <img
+            style="height:150px"
+            class="img-thumbnail img-rounded btn"
+            (click)="onProductDetail(product)"
+            src="{{ this.catalogService.host + '/productPhoto/' + product.id }}"/>
+
+          <div *ngIf="authenService.isAdmin()">
+            <button (click)="onEditPhoto(product)">
+              <span class="glyphicon glyphicon-edit"></span>
+            </button>
+            <p *ngIf="editPhoto && currentProduct == product">
+              <input type="file" (change)="onselectedFile($event)" />
+              <button class="btn btn-success" (click)="uploadPhoto()">
+                Upload
+              </button>
+              {{ progress }}
+            </p>
+          </div>
+          <div>
+            {{ product.description }}
+          </div>
+          <div>
+            <label>Price : {{ product.price | number:'0.2'}}</label>
+          </div>
+          <div>
+            <span *ngIf="product.promotion">
+              <img
+                src="assets/image/promo.png" class="img-thumbnail img-circle" height="2" />
+            </span>
+            <span *ngIf="product.selected">
+              <img src="assets/image/coeur.png" class="img-thumbnail img-circle" height="2"/>
+            </span>
+            <span *ngIf="product.available">
+              <img src="assets/image/dispo.png" class="img-thumbnail img-circle" height="2"/>
+            </span>
+          </div>
+          <div>
+            <form #f="ngForm" (ngSubmit)=onAddProductToPanier(product)>
+              <label class="control-label">Quantité: </label>
+              <input type="number" ngModel="product.quantity" name="quantity" style="width:40px" [(ngModel)]="product.quantity">
+              <button class="btn btn-info">
+                <img src="assets/image/caddy.png" class="img-caddy">
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

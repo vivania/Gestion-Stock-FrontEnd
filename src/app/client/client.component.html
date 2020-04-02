@@ -1,0 +1,97 @@
+<div class="col-md-6" *ngIf="mode==0">
+  <form #f="ngForm" (ngSubmit)="onSaveClient(f.value)">
+
+    <div class="form-group">
+      <label class="control-label">Name: </label>
+      <input type="text" required #name="ngModel" pattern="(?=^.{3,30}$)^([A-Za-z][\s]?)+$" [class.is-invalid]="name.invalid && name.touched" name="name" class="form-control" (ngModel)="panierSerice.getPanier().client.name">
+      <div *ngIf=" name.errors && (name.invalid || name.touched)">
+          <span class="text-danger" *ngIf="name.errors.required">Champ Du nom obligatoire !</span>
+          <span class="text-danger" *ngIf="name.errors.pattern">Éxige minimum 3 characteres !</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label">Address: </label>
+      <input type="text" required #address="ngModel" [class.is-invalide]="address.invalid && address.touched" name="address" class="form-control" (ngModel)="panierSerice.getPanier().client.address">
+      <div *ngIf="address.errors && (address.invalid || address.touched)">
+        <span class="text-danger" *ngIf="address.errors.required">Address obligatoire !</span>
+      </div>
+    </div>
+
+      <div class="form-group">
+        <label class="control-label">Phone number: </label>
+        <input type="text" name="phone" required #phone="ngModel" pattern="^([0-9]){10}$" [class.is-invalid]="phone.invalid && phone.touched" class="form-control" (ngModel)="panierSerice.getPanier().client.phone">
+        <div *ngIf="phone.errors && (phone.invalid || phone.touched)">
+          <span class="text-danger" *ngIf="phone.errors.required">Numéro de télephone obligatoire ! </span>
+          <span class="text-danger" *ngIf="phone.errors.pattern"> Le numéro doit être minimum 10 chifres !</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label">Email: </label>
+        <input type="text" name="email" required #email="ngModel" pattern="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$" [class.is-invalide]="email.invalid && email.touched" ngModel class="form-control" (ngModel)="panierSerice.getPanier().client.email">
+        <div *ngIf="email.errors && (email.invalid || email.touched)">
+          <span class="text-danger" *ngIf="email.errors.required">E-mail obligatoire</span>
+          <span class="text-danger" *ngIf="email.errors.pattern">Email incorrect !</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Next</button>
+  </form>
+</div>
+
+<div class="panel {{panelStyle}}" *ngIf="mode==1">
+  <div class="panel-heading">Récap de votre commande</div>
+  <div class="panel-body">
+    <div class="col-md-5">
+      <div class="form-group">
+        <label>Nom du Client: </label>
+        <span> {{orderService.order.client.name}} </span>
+      </div>
+      <div class="form-group">
+        <label>Adresse Client: </label>
+        <span> {{ orderService.order.client.address }} </span>
+      </div>
+      <div class="form-group">
+        <label>Tel Client: </label>
+        <span> {{ orderService.order.client.phone }} </span>
+      </div>
+      <div class="form-group">
+        <label>Email: </label>
+        <span> {{ orderService.order.client.email }} </span>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="form-group">
+        <label>Order ID: </label>
+        <span> {{orderService.order.id}} </span>
+      </div>
+      <div class="form-group">
+        <label>Order Date: </label>
+        <span> {{orderService.order.date | date: 'dd-MM-yyyy'}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body">
+    <table class="table table-striped">
+      <tr>
+        <th>ID</th>
+        <th>Désignation</th>
+        <th>Quantité</th>
+        <th>Prix</th>
+      </tr>
+      <tr *ngFor="let p of orderService.order.products ">
+        <td>{{p.product.id}}</td>
+        <td>{{p.product.name}}</td>
+        <td>{{p.quantity | number:'0.2'}}</td>
+        <td>{{p.price| number:'0.2'}}</td>
+      </tr>
+      <tr>
+        <td colspan="3">Total:</td>
+        <td>{{orderService.getCurrentTotal() | number:'0.2'}}</td>
+      </tr>
+    </table>
+    <button class="btn btn-success" (click)="onOrder()" *ngIf="orderService.order ">Confirmer la commande</button>
+    <!-- <button class="btn btn-success" (click)="onPayOrder()" *ngIf="orderService.order.id">Pay Order</button> -->
+  </div>
+</div>

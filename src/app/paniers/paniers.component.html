@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Panier</div>
+  <div class="panel-body">
+    <table class="table table-stipped">
+      <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Quantité</th>
+        <th>Prix</th>
+      </tr>
+      <tr *ngFor="let pi of panierService.getPanier().item | keyvalue">
+        <td>{{pi.value.product.id}}</td>
+        <td>{{pi.value.product.name}}</td>
+        <td>{{pi.value.product.quantity}}</td>
+        <td>{{pi.value.product.price | number:'0.2'}}</td>
+        <td class="btn btn-danger" (click)="panierService.removeProductFromPanier(pi.key)">
+            <span class="glyphicon glypphicon-remove">Delete</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">Total</td>
+        <td>{{this.panierService.getTotal() | number:'0.2'}}</td>
+      </tr>
+    </table>
+    <button class="btn btn-success" (click)="newOrder()">Commande</button>
+  </div>
+</div>

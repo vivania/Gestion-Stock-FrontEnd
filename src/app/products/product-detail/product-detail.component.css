@@ -1,0 +1,17 @@
+.panel-heading {
+  background-color: rgb(130, 160, 216) !important;
+  color: aliceblue !important;
+}
+
+.img-circle {
+  width: 30px;
+}
+.img-caddy {
+  width: 25px;
+  margin-right: 5% !important;
+  border-radius: 0.5%;
+}
+
+.heighted {
+  height:420px;
+}
